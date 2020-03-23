@@ -1,5 +1,6 @@
 ﻿using System;
 using board;
+using chess;
 
 namespace sharpchess
 {
@@ -25,6 +26,14 @@ namespace sharpchess
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
+        }
+
+        public static PositionChess ReadPositionChess()
+        {
+            string s = Console.ReadLine();
+            char col = s[0];
+            int row = int.Parse(s[1] + "");
+            return new PositionChess(col, row);
         }
 
         public static void PrintPiece(Piece piece)
