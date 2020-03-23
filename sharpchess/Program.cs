@@ -1,5 +1,6 @@
 ﻿using System;
 using board;
+using pieces;
 
 namespace sharpchess
 {
@@ -8,7 +9,10 @@ namespace sharpchess
         static void Main(string[] args)
         {
             Board board = new Board(8, 8);
-            Screen.printBoard(board);
+
+            board.AddPiece(new Tower(board, Color.Black), new Position(0, 0));
+            
+            Screen.PrintBoard(board);
 
             Console.ReadLine();
         }
