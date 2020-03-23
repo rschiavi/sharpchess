@@ -2,18 +2,18 @@
 {
     class Position
     {
-        public int row { get; set; }
-        public int col { get; set; }
+        public int Row { get; set; }
+        public int Col { get; set; }
 
         public Position(int row, int col)
         {
-            this.row = row;
-            this.col = col;
+            Row = row;
+            Col = col;
         }
 
         public override string ToString()
         {
-            return row + ", " + col;
+            return Row + ", " + Col;
         }
     }
 }

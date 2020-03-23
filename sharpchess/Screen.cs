@@ -7,9 +7,10 @@ namespace sharpchess
     {
         public static void PrintBoard(Board board)
         {
-            for (int i=0; i < board.rows; i++)
+            for (int i=0; i < board.Rows; i++)
             {
-                for (int j=0; j < board.cols; j++)
+                Console.Write($"{8 - i} ");
+                for (int j=0; j < board.Cols; j++)
                 {
                     if (board.GetPiece(i, j) == null)
                     {
@@ -17,10 +18,27 @@ namespace sharpchess
                     }
                     else
                     {
-                        Console.Write(board.GetPiece(i, j) + " ");
+                        PrintPiece(board.GetPiece(i, j));
+                        Console.Write(" ");
                     }
                 }
                 Console.WriteLine();
+            }
+            Console.WriteLine("  a b c d e f g h");
+        }
+
+        public static void PrintPiece(Piece piece)
+        {
+            if (piece.Color == Color.White)
+            {
+                Console.Write(piece);
+            }
+            else
+            {
+                ConsoleColor aux = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.Write(piece);
+                Console.ForegroundColor = aux;
             }
         }
     }
