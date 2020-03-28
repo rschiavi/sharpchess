@@ -25,7 +25,7 @@ namespace chess
 
             Position pos = new Position(0, 0);
 
-            // cima
+            // up
             pos.Row = Position.Row -1;
             pos.Col = Position.Col;
             if (Board.IsValidPosition(pos) && canMove(pos))
@@ -33,7 +33,7 @@ namespace chess
                 matrix[pos.Row, pos.Col] = true;
             }
 
-            // cima direita
+            // up right
             pos.Row = Position.Row -1;
             pos.Col = Position.Col + 1;
             if (Board.IsValidPosition(pos) && canMove(pos))
@@ -41,7 +41,7 @@ namespace chess
                 matrix[pos.Row, pos.Col] = true;
             }
 
-            // direita
+            // right
             pos.Row = Position.Row;
             pos.Col = Position.Col + 1;
             if (Board.IsValidPosition(pos) && canMove(pos))
@@ -49,7 +49,7 @@ namespace chess
                 matrix[pos.Row, pos.Col] = true;
             }
 
-            // baixo direita
+            // down right
             pos.Row = Position.Row + 1;
             pos.Col = Position.Col + 1;
             if (Board.IsValidPosition(pos) && canMove(pos))
@@ -57,7 +57,7 @@ namespace chess
                 matrix[pos.Row, pos.Col] = true;
             }
 
-            // baixo
+            // down
             pos.Row = Position.Row + 1;
             pos.Col = Position.Col;
             if (Board.IsValidPosition(pos) && canMove(pos))
@@ -65,7 +65,7 @@ namespace chess
                 matrix[pos.Row, pos.Col] = true;
             }
 
-            // baixo esquerda
+            // down left
             pos.Row = Position.Row + 1;
             pos.Col = Position.Col - 1;
             if (Board.IsValidPosition(pos) && canMove(pos))
@@ -73,7 +73,7 @@ namespace chess
                 matrix[pos.Row, pos.Col] = true;
             }
 
-            // esquerda
+            // left
             pos.Row = Position.Row;
             pos.Col = Position.Col - 1;
             if (Board.IsValidPosition(pos) && canMove(pos))
@@ -81,7 +81,7 @@ namespace chess
                 matrix[pos.Row, pos.Col] = true;
             }
 
-            // cima esquerda
+            // up left
             pos.Row = Position.Row - 1;
             pos.Col = Position.Col - 1;
             if (Board.IsValidPosition(pos) && canMove(pos))
