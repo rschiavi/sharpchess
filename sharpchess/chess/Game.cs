@@ -1,4 +1,5 @@
-﻿using board;
+﻿using System.Collections.Generic;
+using board;
 
 namespace chess
 {
@@ -8,6 +9,8 @@ namespace chess
         public int Round { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public bool Finished { get; private set; }
+        private HashSet<Piece> Pieces;
+        private HashSet<Piece> CapturedPieces;
 
         public Game()
         {
@@ -15,7 +18,9 @@ namespace chess
             Round = 1;
             CurrentPlayer = Color.White;
             Finished = false;
-            SetPieces();
+            Pieces = new HashSet<Piece>();
+            CapturedPieces = new HashSet<Piece>();
+            PlacePieces();
         }
 
         public void Move(Position origin, Position destination)
@@ -24,6 +29,10 @@ namespace chess
             piece.IncrementQtyMovement();
             Piece capturedPiece = Board.RemPiece(destination);
             Board.AddPiece(piece, destination);
+            if (capturedPiece != null)
+            {
+                CapturedPieces.Add(capturedPiece);
+            }
         }
 
         public void ExecuteRound(Position origin, Position destination)
@@ -69,21 +78,54 @@ namespace chess
             }
         }
 
-        public void SetPieces()
+        public HashSet<Piece> CapturedPiecesByColor(Color color)
         {
-            Board.AddPiece(new Tower(Board, Color.White), new PositionChess('c', 1).ToPosition());
-            Board.AddPiece(new Tower(Board, Color.White), new PositionChess('c', 2).ToPosition());
-            Board.AddPiece(new Tower(Board, Color.White), new PositionChess('d', 2).ToPosition());
-            Board.AddPiece(new Tower(Board, Color.White), new PositionChess('e', 2).ToPosition());
-            Board.AddPiece(new Tower(Board, Color.White), new PositionChess('e', 1).ToPosition());
-            Board.AddPiece(new King(Board, Color.White), new PositionChess('d', 1).ToPosition());
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach (Piece piece in CapturedPieces)
+            {
+                if (piece.Color == color)
+                {
+                    aux.Add(piece);
+                }
+            }
+            return aux;
+        }
 
-            Board.AddPiece(new Tower(Board, Color.Black), new PositionChess('c', 7).ToPosition());
-            Board.AddPiece(new Tower(Board, Color.Black), new PositionChess('c', 8).ToPosition());
-            Board.AddPiece(new Tower(Board, Color.Black), new PositionChess('d', 7).ToPosition());
-            Board.AddPiece(new Tower(Board, Color.Black), new PositionChess('e', 7).ToPosition());
-            Board.AddPiece(new Tower(Board, Color.Black), new PositionChess('e', 8).ToPosition());
-            Board.AddPiece(new King(Board, Color.Black), new PositionChess('d', 8).ToPosition());
+        public HashSet<Piece> PiecesInGameByColor(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach (Piece piece in Pieces)
+            {
+                if (piece.Color == color)
+                {
+                    aux.Add(piece);
+                }
+            }
+            aux.ExceptWith(CapturedPiecesByColor(color));
+            return aux;
+        }
+
+        public void AddNewPiece(char col, int row, Piece piece)
+        {
+            Board.AddPiece(piece, new ChessPosition(col, row).ToPosition());
+            Pieces.Add(piece);
+        }
+
+        public void PlacePieces()
+        {
+            AddNewPiece('c', 1, new Tower(Board, Color.White));
+            AddNewPiece('c', 2, new Tower(Board, Color.White));
+            AddNewPiece('d', 2, new Tower(Board, Color.White));
+            AddNewPiece('e', 2, new Tower(Board, Color.White));
+            AddNewPiece('e', 1, new Tower(Board, Color.White));
+            AddNewPiece('d', 1, new King(Board, Color.White));
+
+            AddNewPiece('c', 7, new Tower(Board, Color.Black));
+            AddNewPiece('c', 8, new Tower(Board, Color.Black));
+            AddNewPiece('d', 7, new Tower(Board, Color.Black));
+            AddNewPiece('e', 7, new Tower(Board, Color.Black));
+            AddNewPiece('e', 8, new Tower(Board, Color.Black));
+            AddNewPiece('d', 8, new King(Board, Color.Black));
         }
     }
 }

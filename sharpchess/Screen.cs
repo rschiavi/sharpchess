@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using board;
 using chess;
 
@@ -6,6 +7,41 @@ namespace sharpchess
 {
     class Screen
     {
+
+        public static void PrintGame(Game game)
+        {
+            Screen.PrintBoard(game.Board);
+            Console.WriteLine();
+            PrintCapturedPieces(game);
+            Console.WriteLine();
+            Console.WriteLine("Round: " + game.Round);
+            Console.WriteLine("Wainting for player: " + game.CurrentPlayer);
+        }
+
+        public static void PrintCapturedPieces(Game game)
+        {
+            Console.WriteLine("Captured pieces:");
+            Console.Write("White: ");
+            PrintPieces(game.CapturedPiecesByColor(Color.White));
+            Console.WriteLine();
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("Black: ");
+            PrintPieces(game.CapturedPiecesByColor(Color.Black));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+        }
+
+        public static void PrintPieces(HashSet<Piece> pieces)
+        {
+            Console.Write("[");
+            foreach(Piece piece in pieces)
+            {
+                Console.Write(piece + " ");
+            }
+            Console.Write("]");
+        }
+
         public static void PrintBoard(Board board)
         {
             for (int i=0; i < board.Rows; i++)
@@ -45,12 +81,12 @@ namespace sharpchess
             Console.WriteLine("  a b c d e f g h");
         }
 
-        public static PositionChess ReadPositionChess()
+        public static ChessPosition ReadPositionChess()
         {
             string s = Console.ReadLine();
             char col = s[0];
             int row = int.Parse(s[1] + "");
-            return new PositionChess(col, row);
+            return new ChessPosition(col, row);
         }
 
         public static void PrintPiece(Piece piece)

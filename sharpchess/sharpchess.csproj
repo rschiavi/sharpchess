@@ -49,7 +49,7 @@
     <Compile Include="board\Piece.cs" />
     <Compile Include="board\Position.cs" />
     <Compile Include="chess\Game.cs" />
-    <Compile Include="chess\PositionChess.cs" />
+    <Compile Include="chess\ChessPosition.cs" />
     <Compile Include="chess\King.cs" />
     <Compile Include="chess\Tower.cs" />
     <Compile Include="Program.cs" />

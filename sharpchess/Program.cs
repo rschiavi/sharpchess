@@ -17,10 +17,7 @@ namespace sharpchess
                     try
                     {
                         Console.Clear();
-                        Screen.PrintBoard(game.Board);
-                        Console.WriteLine();
-                        Console.WriteLine("Round: " + game.Round);
-                        Console.WriteLine("Wainting for player: " + game.CurrentPlayer);
+                        Screen.PrintGame(game);
 
                         Console.WriteLine();
                         Console.Write("Origin: ");
