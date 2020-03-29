@@ -16,6 +16,10 @@ namespace sharpchess
             Console.WriteLine();
             Console.WriteLine("Round: " + game.Round);
             Console.WriteLine("Wainting for player: " + game.CurrentPlayer);
+            if (game.Check)
+            {
+                Console.WriteLine("CHECK!");
+            }
         }
 
         public static void PrintCapturedPieces(Game game)

@@ -20,6 +20,11 @@
             QtyMovements++;
         }
 
+        public void DecrementQtyMovement()
+        {
+            QtyMovements--;
+        }
+
         public bool HasPossibleMovements()
         {
             bool[,] matrix = PossibleMovements();

@@ -8,6 +8,7 @@ namespace chess
         public Board Board { get; private set; }
         public int Round { get; private set; }
         public Color CurrentPlayer { get; private set; }
+        public bool Check { get; private set; }
         public bool Finished { get; private set; }
         private HashSet<Piece> Pieces;
         private HashSet<Piece> CapturedPieces;
@@ -17,13 +18,14 @@ namespace chess
             Board = new Board(8, 8);
             Round = 1;
             CurrentPlayer = Color.White;
+            Check = false;
             Finished = false;
             Pieces = new HashSet<Piece>();
             CapturedPieces = new HashSet<Piece>();
             PlacePieces();
         }
 
-        public void Move(Position origin, Position destination)
+        public Piece Move(Position origin, Position destination)
         {
             Piece piece = Board.RemPiece(origin);
             piece.IncrementQtyMovement();
@@ -33,11 +35,30 @@ namespace chess
             {
                 CapturedPieces.Add(capturedPiece);
             }
+            return capturedPiece;
+        }
+
+        public void UndoMove(Position origin, Position destination, Piece capturedPiece)
+        {
+            Piece piece = Board.RemPiece(destination);
+            piece.DecrementQtyMovement();
+            if (capturedPiece != null)
+            {
+                Board.AddPiece(capturedPiece, destination);
+                CapturedPieces.Remove(capturedPiece);
+            }
+            Board.AddPiece(piece, origin);
         }
 
         public void ExecuteRound(Position origin, Position destination)
         {
-            Move(origin, destination);
+            Piece capturedPiece = Move(origin, destination);
+            if (IsInCheck(CurrentPlayer))
+            {
+                UndoMove(origin, destination, capturedPiece);
+                throw new BoardException("You cannot put yourself in Check!");
+            }
+            Check = IsInCheck(OpponentColor(CurrentPlayer));
             ChangePlayer();
             Round++;
         }
@@ -103,6 +124,37 @@ namespace chess
             }
             aux.ExceptWith(CapturedPiecesByColor(color));
             return aux;
+        }
+
+        private Color OpponentColor(Color color)
+        {
+            return color == Color.White ? Color.Black : Color.White;
+        }
+
+        private Piece GetKing(Color color)
+        {
+            foreach (Piece piece in PiecesInGameByColor(color))
+            {
+                if (piece is King)
+                {
+                    return piece;
+                }
+            }
+            return null;
+        }
+
+        public bool IsInCheck(Color color)
+        {
+            Piece King = GetKing(color);
+            foreach (Piece piece in PiecesInGameByColor(OpponentColor(color)))
+            {
+                bool[,] matrix = piece.PossibleMovements();
+                if (matrix[King.Position.Row, King.Position.Col])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void AddNewPiece(char col, int row, Piece piece)
