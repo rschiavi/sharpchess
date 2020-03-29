@@ -14,20 +14,37 @@ namespace sharpchess
 
                 while (!game.Finished)
                 {
-                    Console.Clear();
-                    Screen.PrintBoard(game.Board);
+                    try
+                    {
+                        Console.Clear();
+                        Screen.PrintBoard(game.Board);
+                        Console.WriteLine();
+                        Console.WriteLine("Round: " + game.Round);
+                        Console.WriteLine("Wainting for player: " + game.CurrentPlayer);
 
-                    Console.WriteLine();
-                    Console.Write("Origin: ");
-                    Position origin = Screen.ReadPositionChess().ToPosition();
-                    bool[,] possibleMovements = game.Board.GetPiece(origin).PossibleMovements();
-                    Console.Clear();
-                    Screen.PrintBoard(game.Board, possibleMovements);
-                    Console.WriteLine();
-                    Console.Write("Destiny: ");
-                    Position destination = Screen.ReadPositionChess().ToPosition();
+                        Console.WriteLine();
+                        Console.Write("Origin: ");
+                        Position origin = Screen.ReadPositionChess().ToPosition();
+                        game.ValidateOriginPosition(origin);
 
-                    game.Move(origin, destination);
+                        bool[,] possibleMovements = game.Board.GetPiece(origin).PossibleMovements();
+
+                        Console.Clear();
+                        Screen.PrintBoard(game.Board, possibleMovements);
+
+                        Console.WriteLine();
+                        Console.Write("Destination: ");
+                        Position destination = Screen.ReadPositionChess().ToPosition();
+                        game.ValidateDestinationPosition(origin, destination);
+
+                        game.ExecuteRound(origin, destination);
+                    }
+                    catch (BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.Write("Continue...");
+                        Console.ReadLine();
+                    }
                 }
             }
             catch (BoardException e)

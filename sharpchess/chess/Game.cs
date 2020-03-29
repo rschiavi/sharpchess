@@ -5,8 +5,8 @@ namespace chess
     class Game
     {
         public Board Board { get; private set; }
-        private int Round;
-        private Color CurrentPlayer;
+        public int Round { get; private set; }
+        public Color CurrentPlayer { get; private set; }
         public bool Finished { get; private set; }
 
         public Game()
@@ -24,6 +24,49 @@ namespace chess
             piece.IncrementQtyMovement();
             Piece capturedPiece = Board.RemPiece(destination);
             Board.AddPiece(piece, destination);
+        }
+
+        public void ExecuteRound(Position origin, Position destination)
+        {
+            Move(origin, destination);
+            ChangePlayer();
+            Round++;
+        }
+
+        public void ValidateOriginPosition(Position pos)
+        {
+            if (Board.GetPiece(pos) == null)
+            {
+                throw new BoardException("There is no piece in the chosen origin position!");
+            }
+            if (CurrentPlayer != Board.GetPiece(pos).Color)
+            {
+                throw new BoardException("The original piece chosen is not yours!");
+            }
+            if (!Board.GetPiece(pos).HasPossibleMovements())
+            {
+                throw new BoardException("There are no possible movements for the chosen piece!");
+            }
+        }
+
+        public void ValidateDestinationPosition(Position origin, Position destination)
+        {
+            if (!Board.GetPiece(origin).CanMoveTo(destination))
+            {
+                throw new BoardException("Invalid target position!");
+            }
+        }
+
+        private void ChangePlayer()
+        {
+            if (CurrentPlayer == Color.White)
+            {
+                CurrentPlayer = Color.Black;
+            }
+            else
+            {
+                CurrentPlayer = Color.White;
+            }
         }
 
         public void SetPieces()

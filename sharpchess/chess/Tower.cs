@@ -13,7 +13,7 @@ namespace chess
             return "T";
         }
 
-        private bool canMove(Position pos)
+        private bool CanMove(Position pos)
         {
             Piece p = Board.GetPiece(pos);
             return p == null || p.Color != Color;
@@ -28,7 +28,7 @@ namespace chess
             // up
             pos.Row = Position.Row - 1;
             pos.Col = Position.Col;
-            while (Board.IsValidPosition(pos) && canMove(pos))
+            while (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
                 if (Board.GetPiece(pos) != null && Board.GetPiece(pos).Color != Color)
@@ -41,7 +41,7 @@ namespace chess
             // down
             pos.Row = Position.Row + 1;
             pos.Col = Position.Col;
-            while (Board.IsValidPosition(pos) && canMove(pos))
+            while (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
                 if (Board.GetPiece(pos) != null && Board.GetPiece(pos).Color != Color)
@@ -54,7 +54,7 @@ namespace chess
             // right
             pos.Row = Position.Row;
             pos.Col = Position.Col + 1;
-            while (Board.IsValidPosition(pos) && canMove(pos))
+            while (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
                 if (Board.GetPiece(pos) != null && Board.GetPiece(pos).Color != Color)
@@ -67,7 +67,7 @@ namespace chess
             // left
             pos.Row = Position.Row;
             pos.Col = Position.Col - 1;
-            while (Board.IsValidPosition(pos) && canMove(pos))
+            while (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
                 if (Board.GetPiece(pos) != null && Board.GetPiece(pos).Color != Color)

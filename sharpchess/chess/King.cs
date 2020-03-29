@@ -13,7 +13,7 @@ namespace chess
             return "K";
         }
 
-        private bool canMove(Position pos)
+        private bool CanMove(Position pos)
         {
             Piece p = Board.GetPiece(pos);
             return p == null || p.Color != Color;
@@ -28,7 +28,7 @@ namespace chess
             // up
             pos.Row = Position.Row -1;
             pos.Col = Position.Col;
-            if (Board.IsValidPosition(pos) && canMove(pos))
+            if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
             }
@@ -36,7 +36,7 @@ namespace chess
             // up right
             pos.Row = Position.Row -1;
             pos.Col = Position.Col + 1;
-            if (Board.IsValidPosition(pos) && canMove(pos))
+            if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
             }
@@ -44,7 +44,7 @@ namespace chess
             // right
             pos.Row = Position.Row;
             pos.Col = Position.Col + 1;
-            if (Board.IsValidPosition(pos) && canMove(pos))
+            if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
             }
@@ -52,7 +52,7 @@ namespace chess
             // down right
             pos.Row = Position.Row + 1;
             pos.Col = Position.Col + 1;
-            if (Board.IsValidPosition(pos) && canMove(pos))
+            if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
             }
@@ -60,7 +60,7 @@ namespace chess
             // down
             pos.Row = Position.Row + 1;
             pos.Col = Position.Col;
-            if (Board.IsValidPosition(pos) && canMove(pos))
+            if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
             }
@@ -68,7 +68,7 @@ namespace chess
             // down left
             pos.Row = Position.Row + 1;
             pos.Col = Position.Col - 1;
-            if (Board.IsValidPosition(pos) && canMove(pos))
+            if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
             }
@@ -76,7 +76,7 @@ namespace chess
             // left
             pos.Row = Position.Row;
             pos.Col = Position.Col - 1;
-            if (Board.IsValidPosition(pos) && canMove(pos))
+            if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
             }
@@ -84,7 +84,7 @@ namespace chess
             // up left
             pos.Row = Position.Row - 1;
             pos.Col = Position.Col - 1;
-            if (Board.IsValidPosition(pos) && canMove(pos))
+            if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
             }
