@@ -59,8 +59,14 @@ namespace chess
                 throw new BoardException("You cannot put yourself in Check!");
             }
             Check = IsInCheck(OpponentColor(CurrentPlayer));
-            ChangePlayer();
-            Round++;
+            if (IsInCheckMate(OpponentColor(CurrentPlayer)))
+            {
+                Finished = true;
+            } else
+            {
+                ChangePlayer();
+                Round++;
+            }
         }
 
         public void ValidateOriginPosition(Position pos)
@@ -81,7 +87,7 @@ namespace chess
 
         public void ValidateDestinationPosition(Position origin, Position destination)
         {
-            if (!Board.GetPiece(origin).CanMoveTo(destination))
+            if (!Board.GetPiece(origin).PossibleMovement(destination))
             {
                 throw new BoardException("Invalid target position!");
             }
@@ -155,6 +161,37 @@ namespace chess
                 }
             }
             return false;
+        }
+
+        public bool IsInCheckMate(Color color)
+        {
+            if (!IsInCheck(color))
+            {
+                return false;
+            }
+            foreach (Piece piece in PiecesInGameByColor(color))
+            {
+                bool[,] matrix = piece.PossibleMovements();
+                for (int i = 0; i < Board.Rows; i++)
+                {
+                    for (int j = 0; j < Board.Cols; j++)
+                    {
+                        if (matrix[i, j])
+                        {
+                            Position origin = piece.Position;
+                            Position destination = new Position(i, j);
+                            Piece capturedPiece = Move(origin, destination);
+                            bool isInCheck = IsInCheck(color);
+                            UndoMove(origin, destination, capturedPiece);
+                            if (!isInCheck)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
 
         public void AddNewPiece(char col, int row, Piece piece)

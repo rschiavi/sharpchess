@@ -43,6 +43,8 @@ namespace sharpchess
                         Console.ReadLine();
                     }
                 }
+                Console.Clear();
+                Screen.PrintGame(game);
             }
             catch (BoardException e)
             {

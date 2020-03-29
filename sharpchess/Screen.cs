@@ -15,10 +15,18 @@ namespace sharpchess
             PrintCapturedPieces(game);
             Console.WriteLine();
             Console.WriteLine("Round: " + game.Round);
-            Console.WriteLine("Wainting for player: " + game.CurrentPlayer);
-            if (game.Check)
+            if (!game.Finished)
             {
-                Console.WriteLine("CHECK!");
+                Console.WriteLine("Wainting for player: " + game.CurrentPlayer);
+                if (game.Check)
+                {
+                    Console.WriteLine("CHECK!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("Winner: " + game.CurrentPlayer);
             }
         }
 
