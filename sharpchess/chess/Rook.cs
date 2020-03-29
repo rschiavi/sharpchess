@@ -2,21 +2,15 @@
 
 namespace chess
 {
-    class Tower : Piece
+    class Rook : Piece
     {
-        public Tower(Board board, Color color) : base(board, color)
+        public Rook(Board board, Color color) : base(board, color)
         {
         }
 
         public override string ToString()
         {
-            return "T";
-        }
-
-        private bool CanMove(Position pos)
-        {
-            Piece p = Board.GetPiece(pos);
-            return p == null || p.Color != Color;
+            return "R";
         }
 
         public override bool[,] PossibleMovements()

@@ -25,6 +25,12 @@
             QtyMovements--;
         }
 
+        private protected bool CanMove(Position pos)
+        {
+            Piece p = Board.GetPiece(pos);
+            return p == null || p.Color != Color;
+        }
+
         public bool HasPossibleMovements()
         {
             bool[,] matrix = PossibleMovements();

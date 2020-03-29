@@ -202,18 +202,18 @@ namespace chess
 
         public void PlacePieces()
         {
-            AddNewPiece('c', 1, new Tower(Board, Color.White));
-            AddNewPiece('c', 2, new Tower(Board, Color.White));
-            AddNewPiece('d', 2, new Tower(Board, Color.White));
-            AddNewPiece('e', 2, new Tower(Board, Color.White));
-            AddNewPiece('e', 1, new Tower(Board, Color.White));
+            AddNewPiece('c', 1, new Rook(Board, Color.White));
+            AddNewPiece('c', 2, new Rook(Board, Color.White));
+            AddNewPiece('d', 2, new Rook(Board, Color.White));
+            AddNewPiece('e', 2, new Rook(Board, Color.White));
+            AddNewPiece('e', 1, new Rook(Board, Color.White));
             AddNewPiece('d', 1, new King(Board, Color.White));
 
-            AddNewPiece('c', 7, new Tower(Board, Color.Black));
-            AddNewPiece('c', 8, new Tower(Board, Color.Black));
-            AddNewPiece('d', 7, new Tower(Board, Color.Black));
-            AddNewPiece('e', 7, new Tower(Board, Color.Black));
-            AddNewPiece('e', 8, new Tower(Board, Color.Black));
+            AddNewPiece('c', 7, new Rook(Board, Color.Black));
+            AddNewPiece('c', 8, new Rook(Board, Color.Black));
+            AddNewPiece('d', 7, new Rook(Board, Color.Black));
+            AddNewPiece('e', 7, new Rook(Board, Color.Black));
+            AddNewPiece('e', 8, new Rook(Board, Color.Black));
             AddNewPiece('d', 8, new King(Board, Color.Black));
         }
     }
