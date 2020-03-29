@@ -13,15 +13,32 @@ namespace sharpchess
                 Console.Write($"{8 - i} ");
                 for (int j=0; j < board.Cols; j++)
                 {
-                    if (board.GetPiece(i, j) == null)
+                    PrintPiece(board.GetPiece(i, j));
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("  a b c d e f g h");
+        }
+
+        public static void PrintBoard(Board board, bool[,] possibleMovements)
+        {
+            ConsoleColor originalBackground = Console.BackgroundColor;
+            ConsoleColor alteredBackground = ConsoleColor.DarkGray;
+            for (int i = 0; i < board.Rows; i++)
+            {
+                Console.Write($"{8 - i} ");
+                for (int j = 0; j < board.Cols; j++)
+                {
+                    if (possibleMovements[i, j])
                     {
-                        Console.Write("- ");
+                        Console.BackgroundColor = alteredBackground;
                     }
                     else
                     {
-                        PrintPiece(board.GetPiece(i, j));
-                        Console.Write(" ");
+                        Console.BackgroundColor = originalBackground;
                     }
+                    PrintPiece(board.GetPiece(i, j));
+                    Console.BackgroundColor = originalBackground;
                 }
                 Console.WriteLine();
             }
@@ -38,16 +55,24 @@ namespace sharpchess
 
         public static void PrintPiece(Piece piece)
         {
-            if (piece.Color == Color.White)
+            if (piece == null)
             {
-                Console.Write(piece);
+                Console.Write("- ");
             }
             else
             {
-                ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.Write(piece);
-                Console.ForegroundColor = aux;
+                if (piece.Color == Color.White)
+                {
+                    Console.Write(piece);
+                }
+                else
+                {
+                    ConsoleColor aux = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.Write(piece);
+                    Console.ForegroundColor = aux;
+                }
+                Console.Write(" ");
             }
         }
     }

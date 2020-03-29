@@ -18,9 +18,13 @@ namespace sharpchess
                     Screen.PrintBoard(game.Board);
 
                     Console.WriteLine();
-                    Console.Write("Origem: ");
+                    Console.Write("Origin: ");
                     Position origin = Screen.ReadPositionChess().ToPosition();
-                    Console.Write("Destino: ");
+                    bool[,] possibleMovements = game.Board.GetPiece(origin).PossibleMovements();
+                    Console.Clear();
+                    Screen.PrintBoard(game.Board, possibleMovements);
+                    Console.WriteLine();
+                    Console.Write("Destiny: ");
                     Position destination = Screen.ReadPositionChess().ToPosition();
 
                     game.Move(origin, destination);
