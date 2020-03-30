@@ -135,18 +135,35 @@ namespace chess
                 UndoMove(origin, destination, capturedPiece);
                 throw new BoardException("You cannot put yourself in Check!");
             }
+
+            Piece piece = Board.GetPiece(destination);
+
+            // Pawn Promotion
+            if (piece is Pawn)
+            {
+                if ((piece.Color == Color.White && destination.Row == 0) || (piece.Color == Color.Black && destination.Row == 7))
+                {
+                    piece = Board.RemPiece(destination);
+                    Pieces.Remove(piece);
+                    piece = new Queen(Board, piece.Color);
+                    Board.AddPiece(piece, destination);
+                    Pieces.Add(piece);
+                }
+            }
+
             Check = IsInCheck(OpponentColor(CurrentPlayer));
+
             if (IsInCheckMate(OpponentColor(CurrentPlayer)))
             {
                 Finished = true;
-            } else
+            }
+            else
             {
                 ChangePlayer();
                 Round++;
             }
 
             // En Passant
-            Piece piece = Board.GetPiece(destination);
             if (piece is Pawn && (destination.Row == origin.Row - 2 || destination.Row == origin.Row + 2))
             {
                 VulnerableEnPassant = piece;
