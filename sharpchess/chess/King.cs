@@ -4,13 +4,22 @@ namespace chess
 {
     class King : Piece
     {
-        public King(Board board, Color color) : base(board, color)
+        private Game Game;
+
+        public King(Board board, Color color, Game game) : base(board, color)
         {
+            Game = game;
         }
 
         public override string ToString()
         {
             return "K";
+        }
+
+        private bool CheckRookForCastling(Position pos)
+        {
+            Piece piece = Board.GetPiece(pos);
+            return piece != null && piece is Rook && piece.QtyMovements == 0 && piece.Color == Color;
         }
 
         public override bool[,] PossibleMovements()
@@ -81,6 +90,32 @@ namespace chess
             if (Board.IsValidPosition(pos) && CanMove(pos))
             {
                 matrix[pos.Row, pos.Col] = true;
+            }
+
+            // Castling
+            if (QtyMovements == 0 && !Game.Check)
+            {
+                Position posRook1 = new Position(Position.Row, Position.Col + 3);
+                if (CheckRookForCastling(posRook1))
+                {
+                    Position pos1 = new Position(Position.Row, Position.Col + 1);
+                    Position pos2 = new Position(Position.Row, Position.Col + 2);
+                    if (Board.GetPiece(pos1) == null && Board.GetPiece(pos2) == null)
+                    {
+                        matrix[Position.Row, Position.Col + 2] = true;
+                    }
+                }
+                Position posRook2 = new Position(Position.Row, Position.Col - 4);
+                if (CheckRookForCastling(posRook2))
+                {
+                    Position pos1 = new Position(Position.Row, Position.Col - 1);
+                    Position pos2 = new Position(Position.Row, Position.Col - 2);
+                    Position pos3 = new Position(Position.Row, Position.Col - 3);
+                    if (Board.GetPiece(pos1) == null && Board.GetPiece(pos2) == null && Board.GetPiece(pos3) == null)
+                    {
+                        matrix[Position.Row, Position.Col - 2] = true;
+                    }
+                }
             }
 
             return matrix;
